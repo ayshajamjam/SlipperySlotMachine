@@ -1,11 +1,4 @@
 # Programming Assignment 3: Slippery Slot Machines
-## COSC 150 - Advanced Programming
-
-- [Goals](#goals)
-- [Description](#description)
-- [Specification and requirements](#specification-and-requirements)
-- [Provided files](#provided-files)
-- [Grading rubric](#grading-rubric)
 
 ## Goals
 
@@ -99,31 +92,3 @@ To add the .jar to your classpath at the command line, you can either
   - `$ CLASSPATH=SlipperySlot.jar:.`
 
 In both cases, notice that the current working directory (`.`) was included in the classpath so that any other files in your current directory can be found as well.
-
-Additionally, the following files related to project logistics are present in your repository:
-- `README.md` which provides this specification.
-- `.gitignore` which specifies files git should NOT track.
-- `.travis.yml` which provides instructions to trigger Travis testing.
-- `travis` a directory containing the testing scripts.
-
-You should not modify *any* of these files while working on your project; doing so may break Travis such that a test build does not run, or gives false/misleading feedback about your code.
-
-## Grading rubric
-
-Your score for this assignment is determined according to the following rubric.
-
-Amazing Feat | Points Awarded | Tested by TravisCI?
----          | :---:          | ---:
-**TestSlipperySlot tests**
-Your repository contains `TestSlipperySlot.java`.                    | 10 | Yes
-Your `TestSlipperySlot.java` compiles.                               | 10 | Yes
-An incorrect `SlipperySlot` fails at least one of your tests (x7).   | 70 | Yes
-A correct `SlipperySlot` passes all of your tests.                   | 10 | Yes
-Your `TestSlipperySlot.java` uses consistent style, reasonable method/variable names, and is documented clearly.                                    | 10 | *No*
-**BetterSlot tests**
-Your repository contains `BetterSlot.java`                           | 10 | Yes
-Your `BetterSlot.java` compiles.                                     | 10 | Yes
-Your `BetterSlot` correctly implements the SSM rules (x10).          | 50 | Yes
-Your `BetterSlot.java` uses consistent style, reasonable method/variable names, and is documented clearly.                                               | 10 | *No*
-**Total points**                                                    | 190 |
-*Total TravisCI points*                                           | *170* |  
