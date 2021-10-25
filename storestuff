@@ -1,0 +1,614 @@
+class BetterSlot {
+	int min = 1;
+	int max = 50;
+	
+	
+	// main
+	public static void main(String[] args) {
+		
+		// Instantiate a BetterSlot object
+		BetterSlot obj = new BetterSlot();
+		int[] values = obj.pullTheLever();
+		int payOffVal = obj.payOff(values);
+		
+		
+		System.out.println("New values inside main: ");
+		for(int i = 0; i < values.length; i++) {
+			System.out.print(values[i] + " ");
+		}
+		
+		System.out.println("");
+		
+		/*int[] testVals = {3,3,3,42,49};
+		int payOffVal = obj.payOff(testVals);*/
+		
+		System.out.println(payOffVal);
+		
+		System.out.println("");
+		
+		
+	}
+	
+	// constructor
+	public BetterSlot() {
+	}
+	
+	public int payOff(int [] values) {
+		bubbleSort(values); // sort values in array
+		
+		System.out.println("New values inside payOff: ");
+		for(int i = 0; i < values.length; i++) {
+			System.out.print(values[i] + " ");
+		}
+		
+		System.out.println(" ");
+	
+		int sumFirstCalc = firstCalculation(values); // relates to first five rules
+		int sumSecondCalc = secondCalculation(values); // create another method to determine this
+		
+		
+		return sumFirstCalc + sumSecondCalc;
+		
+	}
+	
+	private int secondCalculation(int [] sortedValues) {
+		int currentTotal = 0;
+		
+		for(int i = 0; i < sortedValues.length; i++) {
+			double sqrtNum = Math.sqrt(sortedValues[i]);
+					
+			if((sqrtNum - Math.floor(sqrtNum)) == 0) {
+				return 7;
+			}
+			else if(sortedValues[i] == 1 || sortedValues[i] == 2 || sortedValues[i] == 4 ||
+						sortedValues[i] == 8 || sortedValues[i] == 16 || sortedValues[i] == 32) {
+				currentTotal = 3;
+			}
+			else if((currentTotal == 0) && (sortedValues[i] == 42)){
+				currentTotal = 2;
+			}
+		}
+		
+		return currentTotal;
+		
+	}
+	
+	private int firstCalculation(int [] sortedValues) {
+		System.out.println("New values inside firstCalculation: ");
+		for(int i = 0; i < sortedValues.length; i++) {
+			System.out.print(sortedValues[i] + " ");
+		}
+		
+		System.out.println(" ");
+
+		// check if all five numbers are the same
+		int valuesTotal = 0;
+		for(int i = 0; i < sortedValues.length; i++) {
+			valuesTotal += sortedValues[i];
+		}
+		if((valuesTotal / 5) == sortedValues[0]) {
+			System.out.println("5 same numbers");
+			return 1000000;
+		}
+		// check if four numbers are the same
+		else if((((sortedValues[0] == sortedValues[1]) && (sortedValues[1] == sortedValues[2]) && (sortedValues[2] == sortedValues[3])) ||
+				((sortedValues[1] == sortedValues[2]) && (sortedValues[2] == sortedValues[3]) && (sortedValues[3] == sortedValues[4])))) {
+			System.out.println("4 same numbers");
+			return 10000;
+		}
+		// check if three numbers are the same
+		else if ((sortedValues[0] == sortedValues[1] && sortedValues[1] == sortedValues[2]) ||
+		(sortedValues[1] == sortedValues[2] && sortedValues[2] == sortedValues[3]) ||
+		(sortedValues[2] == sortedValues[3] && sortedValues[3] == sortedValues[4])){
+			if(((sortedValues[0] == sortedValues[1]) && (sortedValues[1] != sortedValues[2]) ||
+			(sortedValues[3] == sortedValues[4]) && (sortedValues[2] != sortedValues[3]))){
+				System.out.println("3 same numbers, 2 same numbers");
+				return 5000;
+			}
+			else {
+				System.out.println("3 same numbers only");
+				return 100;
+			}
+		}
+		
+		// check if two numbers are the same
+		else if((sortedValues[0] == sortedValues[1]) || (sortedValues[1] == sortedValues[2]) ||
+				(sortedValues[2] == sortedValues[3]) || (sortedValues[3] == sortedValues[4])) {
+			return 10;
+		}
+		else {
+			return 0;
+		}
+		
+		
+	}
+	
+	private void bubbleSort(int [] values) {
+		
+		int n = values.length;
+		for(int i = 0; i < n - 1; i++) {
+			for(int j = 0; j < n - i - 1; j++) {
+				if(values[j] > values[j+1]) {
+					int temp = values[j];
+					values[j] = values[j + 1];
+					values[j + 1] = temp;
+				}
+			}
+		}
+		
+		System.out.println("Values sorted in bubbleSort: ");
+		for(int i = 0; i < values.length; i++) {
+			System.out.print(values[i] + " ");
+		}
+		
+		System.out.println(" ");
+	}
+	
+	
+	// done
+	public int[] pullTheLever() {
+		int[] vals = new int[5];
+		
+		for(int i = 0; i < 5; i++) {
+			vals[i] = (int)(Math.random() * (max - min + 1)) + min;
+		}
+		
+		System.out.println("Lever pulled: ");
+		
+		for(int i = 0; i < vals.length; i++) {
+			System.out.print(vals[i] + " ");
+		}
+		
+		System.out.println(" ");
+		
+		return vals;
+	}
+	
+	
+}
+
+
+
+---------------------
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+
+class TestSlipperySlot {
+	
+	@Test
+	public void fiveSame() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValues = {3,3,3,3,3};
+		int testPayOff = 1000000;
+		
+		assertEquals(testPayOff, bs.payOff(testValues));
+	}
+	
+	@Test
+	public void fourSame() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValuesSet1 = {3,3,3,3,7};
+		int[] testValuesSet2 = {3,7,7,7,7};
+		
+		int testPayOff = 10000;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		
+	}
+	
+	@Test
+	public void threeSameAndTwoSame() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValuesSet1 = {3,3,3,7,7};
+		int[] testValuesSet2 = {7,3,3,3,7};
+		int[] testValuesSet3 = {7,7,11,11,11};
+		
+		int testPayOff = 5000;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		assertEquals(testPayOff, bs.payOff(testValuesSet3));
+	}
+	
+	@Test
+	public void threeSameAndTwoDifferent() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValuesSet1 = {3,3,3,5,7};
+		int[] testValuesSet2 = {3,5,5,5,7};
+		int[] testValuesSet3 = {3,5,7,7,7};
+		
+		int testPayOff = 100;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		assertEquals(testPayOff, bs.payOff(testValuesSet3));
+	}
+	
+	@Test
+	public void twoSame() {
+		BetterSlot bs = new BetterSlot();
+		
+		// One set of one pair
+		
+		int[] testValuesSet1 = {3,5,7,11,11};
+		int[] testValuesSet2 = {3,5,7,7,11};
+		int[] testValuesSet3 = {3,5,5,7,11};
+		int[] testValuesSet4 = {3,3,5,7,11};
+		
+		// Two sets of two pairs
+		
+		int[] testValuesSet5 = {3,3,5,5,7};
+		int[] testValuesSet6 = {3,3,5,7,7};
+		int[] testValuesSet7 = {3,5,5,7,7};
+		
+		int testPayOff = 10;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		assertEquals(testPayOff, bs.payOff(testValuesSet3));
+		assertEquals(testPayOff, bs.payOff(testValuesSet4));
+		assertEquals(testPayOff, bs.payOff(testValuesSet5));
+		assertEquals(testPayOff, bs.payOff(testValuesSet6));
+		assertEquals(testPayOff, bs.payOff(testValuesSet7));
+		
+	}
+	
+	// Test five same + Some added bonus
+	@Test
+	public void fiveSameAndPerfectSquare() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValuesSet1 = {9,9,9,9,9}; // Perfect square
+		int[] testValuesSet2 = {16,16,16,16,16}; // Perfect Square and power of 2
+		
+		int testPayOff = 1000007;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		
+	}
+	
+	@Test
+	public void fiveSameAndPowerOfTwo() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValues = {8,8,8,8,8};
+		
+		int testPayOff = 1000003;
+		
+		assertEquals(testPayOff, bs.payOff(testValues));
+		
+	}
+	
+	@Test
+	public void fiveSameAnd42() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValues = {42,42,42,42,42};
+		
+		int testPayOff = 1000002;
+		
+		assertEquals(testPayOff, bs.payOff(testValues));
+	}
+	
+	// Test four same + Some added bonus
+	
+	@Test
+	public void fourSameAndPerfectSquare() {
+		BetterSlot bs = new BetterSlot();
+		
+		// Perfect square
+		int[] testValuesSet1 = {3,3,3,3,25}; 
+		int[] testValuesSet2 = {9,9,9,9,11};
+		int[] testValuesSet3 = {9,9,9,9,25};
+		
+		// Perfect square and power of 2
+		int[] testValuesSet4 = {3,3,3,3,16};
+		int[] testValuesSet5 = {16,16,16,16,17};
+		int[] testValuesSet6 = {8,8,8,8,16};
+		
+		// Perfect square and 42
+		int[] testValuesSet7 = {9,9,9,9,42};
+		
+		// Perfect square, power of 2, and 42
+		int[] testValuesSet8 = {16,16,16,16,42};
+		int[] testValuesSet9 = {16,42,42,42,42};
+		
+		int testPayOff = 10007;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		assertEquals(testPayOff, bs.payOff(testValuesSet3));
+		assertEquals(testPayOff, bs.payOff(testValuesSet4));
+		assertEquals(testPayOff, bs.payOff(testValuesSet5));
+		assertEquals(testPayOff, bs.payOff(testValuesSet6));
+		assertEquals(testPayOff, bs.payOff(testValuesSet7));
+		assertEquals(testPayOff, bs.payOff(testValuesSet8));
+		assertEquals(testPayOff, bs.payOff(testValuesSet9));
+		
+	}
+	
+	@Test
+	public void fourSameAndPowerOfTwo() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValuesSet1 = {3,3,3,3,8};
+		int[] testValuesSet2 = {8,8,8,8,42};
+		
+		int testPayOff = 10003;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		
+	}
+	
+	@Test
+	public void fourSameAnd42() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValuesSet1 = {3,3,3,3,42};
+		int[] testValuesSet2 = {42,42,42,42,43};
+		
+		int testPayOff = 10002;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+	}
+	
+	// Test three same + Two Same + Some added bonus
+	
+		@Test
+		public void threeSameTwoSameAndPerfectSquare() {
+			BetterSlot bs = new BetterSlot();
+			
+			// Perfect square
+			int[] testValuesSet1 = {3,3,3,9,9}; 
+			int[] testValuesSet2 = {9,9,9,11,11};
+			
+			
+			// Perfect square and power of 2
+			int[] testValuesSet3 = {9,9,9,16,16};
+			int[] testValuesSet4 = {16,16,16,17,17};
+			int[] testValuesSet5 = {8,8,8,16,16};
+
+			
+			// Perfect square and 42
+			int[] testValuesSet6 = {42,42,42,49,49};
+			int[] testValuesSet7 = {9,9,9,42,42};
+			
+			// Perfect square, power of 2, and 42
+			int[] testValuesSet8 = {16,16,16,42,42};
+			int[] testValuesSet9 = {4,4,42,42,42};
+			
+			int testPayOff = 5007;
+			
+			assertEquals(testPayOff, bs.payOff(testValuesSet1));
+			assertEquals(testPayOff, bs.payOff(testValuesSet2));
+			assertEquals(testPayOff, bs.payOff(testValuesSet3));
+			assertEquals(testPayOff, bs.payOff(testValuesSet4));
+			assertEquals(testPayOff, bs.payOff(testValuesSet5));
+			assertEquals(testPayOff, bs.payOff(testValuesSet6));
+			assertEquals(testPayOff, bs.payOff(testValuesSet7));
+			assertEquals(testPayOff, bs.payOff(testValuesSet8));
+			assertEquals(testPayOff, bs.payOff(testValuesSet9));
+			
+		}
+		
+		@Test
+		public void threeSameTwoSameAndPowerOfTwo() {
+			BetterSlot bs = new BetterSlot();
+			
+			// Power of 2
+			int[] testValuesSet1 = {3,3,3,8,8};
+			int[] testValuesSet2 = {8,8,8,11,11};
+			int[] testValuesSet3 = {8,8,8,32,32};
+			
+			// Power of 2 and 42
+			int[] testValuesSet4 = {8,8,8,42,42};
+			int[] testValuesSet5 = {8,8,42,42,42};
+			
+			int testPayOff = 5003;
+			
+			assertEquals(testPayOff, bs.payOff(testValuesSet1));
+			assertEquals(testPayOff, bs.payOff(testValuesSet2));
+			assertEquals(testPayOff, bs.payOff(testValuesSet3));
+			assertEquals(testPayOff, bs.payOff(testValuesSet4));
+			assertEquals(testPayOff, bs.payOff(testValuesSet5));
+			
+		}
+		
+		@Test
+		public void threeSameTwoSameAnd42() {
+			BetterSlot bs = new BetterSlot();
+			
+			// 42
+			int[] testValuesSet1 = {3,3,3,42,42};
+			int[] testValuesSet2 = {42,42,42,47,47};
+			
+			int testPayOff = 5002;
+			
+			assertEquals(testPayOff, bs.payOff(testValuesSet1));
+			assertEquals(testPayOff, bs.payOff(testValuesSet2));
+			
+		}
+		
+		
+		
+// Test three same + Two Diff + Some added bonus
+
+	@Test
+	public void threeSameTwoDiffAndPerfectSquare() {
+		BetterSlot bs = new BetterSlot();
+		
+		// Perfect square
+		int[] testValuesSet1 = {3,3,3,7,9}; 
+		int[] testValuesSet2 = {9,9,9,11,17};
+		
+		
+		// Perfect square and power of 2
+		int[] testValuesSet3 = {3,3,3,5,16};
+		int[] testValuesSet4 = {3,3,3,16,25};
+		int[] testValuesSet5 = {8,9,9,9,32};
+		int[] testValuesSet6 = {16,16,16,17,19};
+		int[] testValuesSet7 = {8,8,8,16,25};
+		
+		// Perfect square and 42
+		int[] testValuesSet8 = {42,42,42,49,50};
+		int[] testValuesSet9 = {9,9,9,42,47};
+		
+		// Perfect square, power of 2, and 42
+		int[] testValuesSet10 = {16,16,16,42,47};
+		int[] testValuesSet11 = {16,16,16,42,49};
+		int[] testValuesSet12 = {9,9,9,16,42};
+		
+		int testPayOff = 107;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		assertEquals(testPayOff, bs.payOff(testValuesSet3));
+		assertEquals(testPayOff, bs.payOff(testValuesSet4));
+		assertEquals(testPayOff, bs.payOff(testValuesSet5));
+		assertEquals(testPayOff, bs.payOff(testValuesSet6));
+		assertEquals(testPayOff, bs.payOff(testValuesSet7));
+		assertEquals(testPayOff, bs.payOff(testValuesSet8));
+		assertEquals(testPayOff, bs.payOff(testValuesSet9));
+		assertEquals(testPayOff, bs.payOff(testValuesSet10));
+		assertEquals(testPayOff, bs.payOff(testValuesSet11));
+		assertEquals(testPayOff, bs.payOff(testValuesSet12));
+		
+	}
+	
+	@Test
+	public void threeSameTwoDiffAndPowerOfTwo() {
+		BetterSlot bs = new BetterSlot();
+		
+		// Power of 2
+		int[] testValuesSet1 = {3,3,3,8,11};
+		int[] testValuesSet2 = {8,8,8,11,13};
+		int[] testValuesSet3 = {8,8,8,11,32};
+		
+		// Power of 2 and 42
+		int[] testValuesSet4 = {8,8,8,42,47};
+		int[] testValuesSet5 = {5,8,42,42,42};
+		
+		int testPayOff = 103;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		assertEquals(testPayOff, bs.payOff(testValuesSet3));
+		assertEquals(testPayOff, bs.payOff(testValuesSet4));
+		assertEquals(testPayOff, bs.payOff(testValuesSet5));
+		
+	}
+	
+	@Test
+	public void threeSameTwoDiffAnd42() {
+		BetterSlot bs = new BetterSlot();
+		
+		// 42
+		int[] testValuesSet1 = {3,3,3,42,47};
+		int[] testValuesSet2 = {3,42,42,42,47};
+		
+		int testPayOff = 102;
+		
+		assertEquals(testPayOff, bs.payOff(testValuesSet1));
+		assertEquals(testPayOff, bs.payOff(testValuesSet2));
+		
+	}
+	
+	// Test two same + Some added bonus
+
+		@Test
+		public void twoSameAndPerfectSquare() {
+			BetterSlot bs = new BetterSlot();
+			
+			// Perfect square
+			int[] testValuesSet1 = {3,3,5,7,9}; 
+			int[] testValuesSet2 = {9,9,11,13,17};
+			int[] testValuesSet3 = {9,9,23,25,31};
+			
+			
+			// Perfect square and power of 2
+			int[] testValuesSet4 = {3,3,5,9,16};
+			int[] testValuesSet5 = {9,9,16,16,17};
+			
+			// Perfect square and 42
+			int[] testValuesSet6 = {3,42,42,43,49};
+			int[] testValuesSet7 = {9,9,11,13,42};
+			
+			// Perfect square, power of 2, and 42
+			int[] testValuesSet8 = {16,16,17,23,42};
+			int[] testValuesSet9 = {9,9,16,17,42};
+			int[] testValuesSet10 = {16,42,42,43,47};
+			
+			int testPayOff = 17;
+			
+			assertEquals(testPayOff, bs.payOff(testValuesSet1));
+			assertEquals(testPayOff, bs.payOff(testValuesSet2));
+			assertEquals(testPayOff, bs.payOff(testValuesSet3));
+			assertEquals(testPayOff, bs.payOff(testValuesSet4));
+			assertEquals(testPayOff, bs.payOff(testValuesSet5));
+			assertEquals(testPayOff, bs.payOff(testValuesSet6));
+			assertEquals(testPayOff, bs.payOff(testValuesSet7));
+			assertEquals(testPayOff, bs.payOff(testValuesSet8));
+			assertEquals(testPayOff, bs.payOff(testValuesSet9));
+			assertEquals(testPayOff, bs.payOff(testValuesSet10));
+			
+		}
+		
+		@Test
+		public void twoSameAndPowerOfTwo() {
+			BetterSlot bs = new BetterSlot();
+			
+			// Power of 2
+			int[] testValuesSet1 = {3,3,7,8,11};
+			int[] testValuesSet2 = {8,8,11,13,17};
+			
+			// Power of 2 and 42
+			int[] testValuesSet3 = {8,8,11,13,42};
+			int[] testValuesSet4 = {3,5,8,42,42};
+			
+			int testPayOff = 13;
+			
+			assertEquals(testPayOff, bs.payOff(testValuesSet1));
+			assertEquals(testPayOff, bs.payOff(testValuesSet2));
+			assertEquals(testPayOff, bs.payOff(testValuesSet3));
+			assertEquals(testPayOff, bs.payOff(testValuesSet4));
+			
+		}
+		
+		@Test
+		public void twoSameAnd42() {
+			BetterSlot bs = new BetterSlot();
+			
+			// 42
+			int[] testValuesSet1 = {3,3,5,7,42};
+			int[] testValuesSet2 = {3,5,7,42,42};
+			
+			int testPayOff = 12;
+			
+			assertEquals(testPayOff, bs.payOff(testValuesSet1));
+			assertEquals(testPayOff, bs.payOff(testValuesSet2));
+			
+		}
+	
+	
+	@Test
+	public void allDifferent() {
+		BetterSlot bs = new BetterSlot();
+		
+		int[] testValues = {3, 5, 7, 11, 13};
+		
+		int testPayOff = 0;
+		assertEquals(testPayOff, bs.payOff(testValues));
+	}
+	
+}
